@@ -27,10 +27,7 @@ public class StorageData {
         StorageData.messages = new HashMap<Integer,FacadeMassg>();
     }
 
-    public static void setId(int id) {
-        StorageData.id = id;
-    }
-    
+       
     //**********funciones para manejar keys- ****************//
     public static boolean setData(String key, String secret){
         if(data.get(key) ==  null){
@@ -39,7 +36,7 @@ public class StorageData {
         }
         return false;
     }
-     public static facade validateKey(String key){
+     public static facade getKey(String key){
         return  data.get(key);
     }
     
@@ -52,8 +49,11 @@ public class StorageData {
 
     }
     
-   public static String getId(Integer id){
-        FacadeMassg mssg = messages.get(id);
+   public static String getId(Integer idfind){
+        FacadeMassg mssg = messages.get(idfind);
+        if (mssg == null)
+         return "{}";
+        else
         return "{\"id\":\""+mssg.getId()+"\",\"message\":\""+mssg.getMssg()+"\",\"message\":\""+mssg.getTag()+"\"}";
     }
    

@@ -5,14 +5,17 @@
  */
 package controladores;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URI;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
+
 import storage.StorageData;
 
 /**
@@ -24,35 +27,51 @@ public class ControlPostMassage implements HttpHandler {
         @Override
          public void handle(HttpExchange request) throws IOException {
                  // parse request
-                 ControlHeaders guard = new ControlHeaders();
-                 guard.guardHeaders(request);
-                 
-                 
+            boolean authorized = false;
+           Headers requesthaders=  request.getRequestHeaders();
+           URI requestedUri = request.getRequestURI();
+           GetParams params = new GetParams();
+           JSONObject requestbody = params.getJson(request);
+           ControlHeaders guard = new ControlHeaders();
+            String Hroute ="";
           
+           authorized=  guard.guardHeaders(requesthaders,requestedUri,requestbody,request);
+           System.out.println("autorizado: "+authorized);
+           if(authorized){
+              Hroute = requesthaders.get("X-route").get(0);
+           
+            if(Hroute.split(" ")[0].toLowerCase().equals("post") ){
+                     runRequest(requesthaders,requestbody,request);
+                   }
+                   else{
+                    ControlGetMssgTag requestGet = new ControlGetMssgTag();
+                    requestGet.runRequest(requestedUri,request);
+                   }  
+           }
+  
          }
+         
+       
+         public void handle(){}
+         
+         public void runRequest(Headers requesthaders,JSONObject requestbody,HttpExchange request) throws IOException{
+   
+                JSONObject jsonObject = null;
+                String response = "ok";
 
-    
-         public void runRequest(HttpExchange request) throws IOException{
-                  JSONParser jsonParser = new JSONParser();
-                  JSONObject jsonObject = null;
-                  String response = "ok";
-                  
-                 //obtencion de parametros del bodyrequest. (formato Json) 
-                try {
-                    jsonObject = (JSONObject)jsonParser.parse(new InputStreamReader(request.getRequestBody(), "utf-8"));
-                } catch (ParseException ex) {
-                    System.out.println("Error interno no se pudo obtener  el bodyrequest");
+               //obtencion de parametros del bodyrequest. (formato Json)
+               jsonObject = requestbody;
+                    
+                if(jsonObject== null){ 
                       response = "{\"respuesta\":\"Error\"}";
                       request.sendResponseHeaders(500, response.length());
                 }
-                
                  // valida parametros               
-                 if(jsonObject.get("msg")!= null && jsonObject.get("tags") != null){
-                   boolean  result = StorageData.setData(jsonObject.get("msg").toString(),jsonObject.get("tags").toString());
-                    if (result){
-                      response = "{\"respuesta\":\"Mensaje guardado correctamente.\"}";
+                else if(jsonObject.get("msg")!= null && jsonObject.get("tags") != null){
+                   int  result = StorageData.setDataMssg(jsonObject.get("msg").toString(),jsonObject.get("tags").toString());
+                      response = "{\"id\":\""+String.valueOf(result)+"\"}";
                       request.sendResponseHeaders(200, response.length());
-                      }
+                      
                   
                  }
                  else{
