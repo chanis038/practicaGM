@@ -1,3 +1,9 @@
 Manifest-Version: 1.0
-X-COMMENT: Main-Class will be added automatically by build
+este codigo fuente Emula un servidor web con tres servcios
+    http://... /credencial PUT
+    http://... /message  POST/GET
+    http://.../messages  GET
 
+pera poder utilizar este proyecto es necesario tener el paquete JDK 8 , compilar los archivos fuentes y correrlo desde la consola, no posee GUI
+
+los servicios han sido proados con cliente REST intalado en un navegador de la siguiente forma.
