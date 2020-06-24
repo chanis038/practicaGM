@@ -58,6 +58,7 @@ public class ControlPostMassage implements HttpHandler {
    
                 JSONObject jsonObject = null;
                 String response = "ok";
+                String responseH = "ok";
 
                //obtencion de parametros del bodyrequest. (formato Json)
                jsonObject = requestbody;
@@ -76,9 +77,11 @@ public class ControlPostMassage implements HttpHandler {
                  }
                  else{
                  response = "{\"respuesta\":\"Error en los parametros esperados\"}";
-                 request.sendResponseHeaders(400, response.length());
+                responseH="";
+                 request.sendResponseHeaders(400, responseH.length());
                  }
                   //send response
+                  
                  OutputStream os = request.getResponseBody();
                  os.write(response.toString().getBytes());
                  os.close();   

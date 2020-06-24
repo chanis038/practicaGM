@@ -17,11 +17,14 @@ import java.io.OutputStream;
 public class RaizHttp implements HttpHandler{
        
     public void handle(HttpExchange he) throws IOException {
+        
+                 String responseH="";
                  String response = "Server MG  \n Estado: Activo";
-                 he.sendResponseHeaders(200, response.length());
+                 he.sendResponseHeaders(200, responseH.length());
                  OutputStream os = he.getResponseBody();
                  os.write(response.getBytes());
                  os.close();
          }
 
 }
+

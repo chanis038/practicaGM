@@ -38,18 +38,20 @@ public class ControlGetMssgTag implements HttpHandler {
         public void runRequest(URI requestedUri,HttpExchange request) throws IOException{
                
                  String response =getValuePath(requestedUri.toString());
-                 
+                 String responseH="";
+               
                  if(response.equals("E")){
                     response="{\"respuesta\":\" Pagina no encontrada.\"}";
-                   request.sendResponseHeaders(404, response.length()); 
+                   request.sendResponseHeaders(404, responseH.length()); 
                  } 
                  else if(response.equals("{E}")){
                    response="{\"respuesta\":\" Error.\"}";
-                   request.sendResponseHeaders(400, response.length());  
+                   request.sendResponseHeaders(400, responseH.length());  
                  }
                  else{
-                   request.sendResponseHeaders(200, response.length()); 
+                   request.sendResponseHeaders(200, responseH.length()); 
                  }
+                 
                  OutputStream os = request.getResponseBody();
                  os.write(response.toString().getBytes());
                  os.close();
