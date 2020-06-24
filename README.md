@@ -71,7 +71,7 @@ PARA : <br>
 
  <br>
  <br>
-       ![Alt text](Lightshot/msg.png?raw=true "request ")
+     ![Alt text](Lightshot/msg.png?raw=true "request")
  
  <br>
  <br>
@@ -81,7 +81,7 @@ PARA : <br>
        500  SI PASA ALGUN ERROR INTERNO  <br>
        400  SI NO LLEVAR ALGUN HEADER  O  PARAMETRO FALTANTE<br>
  
- <br><strong>NOTA<strong> se realizaron esta puebras durante el desarrollo y no tiene una interfaz propia para poder ralizarlas, ya que por falta de tiempo no pude comcluirla.<strong><br>
+ <br><strong>NOTA<strong> se realizaron estas puebras durante el desarrollo y no tiene una interfaz propia para poder ralizarlas, ya que por falta de tiempo no pude comcluirla.<strong><br>
      
 
       
